@@ -1,19 +1,20 @@
 #include "push_swap.h"
 
 // Add to the back
-int ft_list_add_back(t_list *head, int data)
+void ft_list_add_back(t_list *head, int data, int i)
 {
     t_list  *current;
+    t_list  *new;
 
     current = head;
     while (current->next != NULL)
         current = current->next;
     current->next = (t_list *)malloc(sizeof(t_list));
     if (current->next == NULL)
-        return (1);
+        ft_fatal_error(MEM_ERR);
     current->next->data = data;
+    current->next->i = i;
     current->next->next = NULL;
-    return (0);
 }
 
 // Iterate over a List
