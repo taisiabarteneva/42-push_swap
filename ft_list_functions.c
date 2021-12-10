@@ -4,7 +4,6 @@
 void ft_list_add_back(t_list *head, int data, int i)
 {
     t_list  *current;
-    t_list  *new;
 
     current = head;
     while (current->next != NULL)

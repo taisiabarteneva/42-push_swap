@@ -1,9 +1,3 @@
-// ◦ write
-// ◦ read
-// ◦ malloc
-// ◦ free
-// ◦ exit
-
 #include "push_swap.h"
 
 #define FIRST_ELEM   1
@@ -22,11 +16,9 @@ void ft_fatal_error(int err_num)
     exit(EXIT_FAILURE);
 }
 
-// check args
 int ft_check_args(int ac, char **av)
 {
     int     i;
-    long    val;
 
     i = FIRST_ELEM;
     while (i < ac)
@@ -80,22 +72,23 @@ void ft_fill_list(int ac, char **av)
         elem_num++;
     }
     ft_check_duplicate_values(head);
-    // 
+    /* 
     t_list *stack;
     stack = (t_list *)malloc(sizeof(t_list));
     stack->data = 10;
     stack->i = 0;
     stack->next = NULL;
     ft_list_add_back(stack, 80, 1);
-    //
+    */
     ft_print_list(head);
-    ft_rotate(&head);
+    printf("reverse rotate : ");
+    ft_reverse_rotate(&head);
     ft_print_list(head);
 }
 
 int main(int ac, char **av)
 {
-    if (ac == 1)
+    if (ac < 4)
         ft_fatal_error(DEFAULT_ERR);
     ft_check_args(ac, av);
     ft_fill_list(ac, av);

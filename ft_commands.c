@@ -1,6 +1,6 @@
 #include "push_swap.h"
 
-// sa, sb, ss
+/* sa, sb, ss */
 void ft_swap(t_list **_head)
 {
     t_list      *second_item;
@@ -16,7 +16,7 @@ void ft_swap(t_list **_head)
     *_head = head;
 }
 
-// pa, pb
+/* pa, pb */
 void ft_push(t_list **head_dst, t_list **head_src)
 {
     t_list  *src;
@@ -35,33 +35,40 @@ void ft_push(t_list **head_dst, t_list **head_src)
     *head_dst = dst;
 }
 
-// ra : rotate a - shift up all elements of stack a by 1. The first element becomes the last one.
+/* ra : rotate a - shift up all elements of stack a by 1. The first element becomes the last one. */
 void ft_rotate(t_list **head)
 {
     t_list  *current;
     t_list  *last;
-    int     i_last;
-    int     first_data;
 
+    if (!(*head) || (*head)->next == NULL)
+        return ;
     current = *head;
-    first_data = current->data;
+    last = *head;
     while (last->next != NULL)
         last = last->next;
-    i_last = last->i;
-    while (current->next != NULL)
+    last->next = current;
+    *head = current->next;
+    current->next = NULL;
+}
+
+/* rra : shift down all elements of stack a by 1. The last element becomes the first one. */
+void ft_reverse_rotate(t_list **head)
+{
+    t_list *last;
+    t_list *prelast;
+
+    if (!(*head) || (*head)->next == NULL)
+        return ;
+    last = *head;
+    prelast = *head;
+    while (prelast->next->next != NULL)
     {
-        if (current->i == 0)
-        {
-            current->data = last->data;
-        }
-        else if (current->i == i_last)
-        {
-            current->data = first_data;
-        }
-        else
-        {
-            current->data = current->next->data;
-        }
-        current = current->next;
+        prelast = prelast->next;
+        last = last->next;
     }
+    last = last->next;
+    last->next = *head;
+    prelast->next = NULL;
+    *head = last;
 }
