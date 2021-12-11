@@ -1,7 +1,7 @@
 NAME = push_swap
 
 SOURCES =	main.c			ft_list_functions.c		ft_standard_functions.c\
-			ft_commands.c
+			ft_commands.c	ft_algorythm.c			ft_prerequisites.c\
 
 OBJ = $(patsubst %.c,%.o,$(SOURCES))
 

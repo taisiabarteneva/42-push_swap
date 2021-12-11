@@ -53,7 +53,6 @@ void ft_fill_list(int ac, char **av)
     t_list  *head;
     int     val;
     int     i;
-    int     elem_num;
 
     head = (t_list *)malloc(sizeof(t_list));
     if (!head)
@@ -63,27 +62,15 @@ void ft_fill_list(int ac, char **av)
     head->i = 0;
     head->next = NULL;
     i = LIST_START;
-    elem_num = 1;
     while (i < ac)
     {
         val = ft_atoi(av[i]);
-        ft_list_add_back(head, val, elem_num);
+        ft_list_add_back(head, val);
         i++;
-        elem_num++;
     }
-    ft_check_duplicate_values(head);
-    /* 
-    t_list *stack;
-    stack = (t_list *)malloc(sizeof(t_list));
-    stack->data = 10;
-    stack->i = 0;
-    stack->next = NULL;
-    ft_list_add_back(stack, 80, 1);
-    */
-    ft_print_list(head);
-    printf("reverse rotate : ");
-    ft_reverse_rotate(&head);
-    ft_print_list(head);
+    ft_check_duplicate_values(head); 
+    ft_index_elems(&head);
+    ft_swap_indexed_elems(&head, ac);
 }
 
 int main(int ac, char **av)

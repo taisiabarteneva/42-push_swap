@@ -23,6 +23,10 @@ void ft_push(t_list **head_dst, t_list **head_src)
     t_list  *dst;
     t_list  *second;
 
+    if (!(*head_dst))
+    {
+        dst = malloc(sizeof(t_list));
+    }
     src = *head_src;
     if (!(*head_src))
         return ;
