@@ -1,7 +1,7 @@
 #include "push_swap.h"
 
 // Add to the back
-void ft_list_add_back(t_list *head, int data)
+void list_add_back(t_list *head, int data)
 {
     t_list  *current;
 
@@ -10,30 +10,28 @@ void ft_list_add_back(t_list *head, int data)
         current = current->next;
     current->next = (t_list *)malloc(sizeof(t_list));
     if (current->next == NULL)
-        ft_fatal_error(MEM_ERR);
+        fatal_error(MEM_ERR);
     current->next->data = data;
     current->next->i = 0;
     current->next->next = NULL;
 }
 
 // Count of nodes
-int ft_count_nodes(t_list **head)
+int count_nodes(t_list *head)
 {
-    t_list  *current;
     int     count;
 
-    current = *head;
     count = 0;
-    while (current)
+    while (head)
     {
         count++;
-        current = current->next;
+        head = head->next;
     }
     return (count);
 }
 
 // Iterate over a List
-void ft_print_list(t_list *node)
+void print_list(t_list *node)
 {
     t_list  *current;
     int     i;

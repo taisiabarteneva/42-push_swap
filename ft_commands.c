@@ -1,7 +1,7 @@
 #include "push_swap.h"
 
 /* sa, sb, ss */
-void ft_swap(t_list **_head)
+void swap(t_list **_head)
 {
     t_list      *second_item;
     t_list      *head;
@@ -17,7 +17,7 @@ void ft_swap(t_list **_head)
 }
 
 /* pa, pb */
-void ft_push(t_list **head_dst, t_list **head_src)
+void push(t_list **head_dst, t_list **head_src)
 {
     t_list  *src;
     t_list  *dst;
@@ -37,10 +37,11 @@ void ft_push(t_list **head_dst, t_list **head_src)
     src = second;
     *head_src = src;
     *head_dst = dst;
+    printf("push\n");
 }
 
 /* ra : rotate a - shift up all elements of stack a by 1. The first element becomes the last one. */
-void ft_rotate(t_list **head)
+void rotate(t_list **head)
 {
     t_list  *current;
     t_list  *last;
@@ -54,10 +55,11 @@ void ft_rotate(t_list **head)
     last->next = current;
     *head = current->next;
     current->next = NULL;
+    printf("rotate\n");
 }
 
 /* rra : shift down all elements of stack a by 1. The last element becomes the first one. */
-void ft_reverse_rotate(t_list **head)
+void reverse_rotate(t_list **head)
 {
     t_list *last;
     t_list *prelast;
@@ -75,4 +77,5 @@ void ft_reverse_rotate(t_list **head)
     last->next = *head;
     prelast->next = NULL;
     *head = last;
+    printf("reverse\n");
 }

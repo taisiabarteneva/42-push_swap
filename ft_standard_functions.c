@@ -7,7 +7,7 @@ static int	ft_isdigit(int c)
 	return (0);
 }
 
-static int ft_check_rmd(const char *str)
+static int check_rmd(const char *str)
 {
     int flag;
     int i = 0;
@@ -36,16 +36,16 @@ int	ft_atoi(const char *str)
 		sign *= -1;
 	if (*str == '-' || *str == '+')
 		str++;
-    flag = ft_check_rmd(str);
+    flag = check_rmd(str);
     if (flag == 1)
-        ft_fatal_error(DEFAULT_ERR);
+        fatal_error(DEFAULT_ERR);
 	while (*str >= '0' && *str <= '9')
 	{
 		val = val * 10 + *str - '0';
 		if (val > 2147483648 && sign == -1)
-			ft_fatal_error(DEFAULT_ERR);
+			fatal_error(DEFAULT_ERR);
 		else if (val > 2147483648)
-			ft_fatal_error(DEFAULT_ERR);
+			fatal_error(DEFAULT_ERR);
 		str++;
 	}
 	return (val * sign);

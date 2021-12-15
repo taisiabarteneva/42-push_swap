@@ -1,6 +1,6 @@
 #include "push_swap.h"
 
-int ft_find_min(t_list **head)
+int find_min(t_list **head)
 {
     t_list  *current;
     int     min_val;
@@ -18,7 +18,7 @@ int ft_find_min(t_list **head)
     return (min_val);
 }
 
-void ft_side_index_elems(t_list **head, int min, int count)
+void side_index_elems(t_list **head, int min, int count)
 {
     int i;
     int tmp;
@@ -45,12 +45,12 @@ void ft_side_index_elems(t_list **head, int min, int count)
     }
 }
 
-void ft_index_elems(t_list **head)
+void index_elems(t_list **head)
 {
     int     min;
     int     count;
 
-    min = ft_find_min(head);
-    count = ft_count_nodes(head);
-    ft_side_index_elems(head, min, count);
+    min = find_min(head);
+    count = count_nodes(*head);
+    side_index_elems(head, min, count);
 }
