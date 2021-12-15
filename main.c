@@ -101,16 +101,18 @@ int main(int ac, char **av)
     t_list  *head;
     int     step;
     
-    if (ac == 1)
-        return (1);
-    else if (ac < 4)
-        fatal_error(DEFAULT_ERR);
-    // check if sorted
-    check_args(ac, av);
-    fill_list(&head, ac, av);
-    step = count_step(ac);
-    // printf("%d\n", step);
-    // printf("%d\n", ac - 1);
-    push_indexed_elems(&head, step);
+    if (ac == 2)
+    {
+        write(1, av[1], 1);
+        write(1, "\n", 1);
+    }
+    else if (ac > 2)
+    {
+        // check if sorted
+        check_args(ac, av);
+        fill_list(&head, ac, av);
+        step = count_step(ac);
+        push_indexed_elems(&head, step);
+    }
     return (0);
 }

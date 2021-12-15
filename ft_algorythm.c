@@ -4,16 +4,16 @@ void sort_three_elems(t_list **head)
 {
     if ((*head)->data > (*head)->next->data) 
     {
-        swap(head);
+        swap_shell(head, NULL);
     }
     if ((*head)->next->data > (*head)->next->next->data)
     {
         reverse_rotate(head);
-        swap(head);
+        swap_shell(head, NULL);
     }
     if ((*head)->data > (*head)->next->data) 
     {
-        swap(head);
+        swap_shell(head, NULL);
     }
 }
 
@@ -22,9 +22,7 @@ int check_group(t_list *head, int step)
 	while (head)
 	{
 		if (head->i < step)
-		{
 			return (1);
-		}
 		head = head->next;
 	}
 	return (0);
@@ -80,26 +78,58 @@ int locate_elem_stack_b(t_list **stack_b, int max_index)
 	return (flag);
 }
 
+/* Перекинуть элементы из В в А в зависимости от их положения в стеке В */
 void get_sorted_list(t_list **stack_a, t_list **stack_b)
 {
 	int 	max_index;
 	int		flag;
+	int 	count;
 
 	while (*stack_b)
-	{
+	{	
+		count = 0;
 		max_index = find_max(*stack_b);
 		flag = locate_elem_stack_b(stack_b, max_index);
 		while ((*stack_b)->i != max_index)
 		{
 			if (flag == 0)
-				rotate(stack_b);
+			{
+				// if ((*stack_b)->i == max_index - 1) 
+				// {	
+				// 	push(stack_a, stack_b);
+				// 	count++;
+				// }
+				rotate_shell(NULL, stack_b);
+			}
 			else
-				reverse_rotate(stack_b);
+			{
+				if ((*stack_b)->i == max_index - 1)
+				{
+					push_shell(stack_a, stack_b, 0);
+					count++;
+				}
+				reverse_rotate_shell(NULL, stack_b);
+			}
 		}
-		push(stack_a, stack_b);
+		push_shell(stack_a, stack_b, 0);
+		if (count)
+		{
+			if (*stack_b && (*stack_b)->next &&
+			((*stack_b)->data < (*stack_b)->next->data))
+			{	
+				swap_shell(stack_a, stack_b);
+			}
+			else
+				swap_shell(stack_a, NULL);
+			// printf("stack a\n");
+			// print_list(*stack_a);
+			// printf("stack b\n");
+			// print_list(*stack_b);
+		}
 	}
 }
 
+/* Перекинуть по группам элементы из стека А в В, пока в А не останется трех элементов */
 void push_indexed_elems(t_list **head, int step)
 {
     t_list  *stack_b;
@@ -111,8 +141,6 @@ void push_indexed_elems(t_list **head, int step)
     stack_b = NULL;
     i = 0;
 	max = find_max(*head);
-	
-    /* перекинуть все элементы из А в Б, пока в А не останется трех наибольших */
     while (count_nodes(stack_a) > 3)
     {
         while (count_nodes(stack_a) > 3 && check_group(stack_a, step) == 1)
@@ -123,19 +151,16 @@ void push_indexed_elems(t_list **head, int step)
 			// printf("current num is [%d:%d]\n", stack_a->data, stack_a->i);
             if (stack_a->i < step && stack_a->i < (max - 2))
             {
-				// printf("pa\n");
-                push(&stack_b, &stack_a);
+				// push(&stack_b, &stack_a);
+                push_shell(&stack_b, &stack_a, 1);
             }
             else
             {
-				// printf("ra\n");
-                rotate(&stack_a);
+                rotate_shell(&stack_a, NULL);
             }
         }
         i += step;
         step += step;
-        // printf("i is [%d]\n", i);
-        // printf("step is [%d]\n", step);
     }
     sort_three_elems(&stack_a);
 	// if list is sorted, exit

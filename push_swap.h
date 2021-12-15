@@ -31,11 +31,16 @@ int	    ft_atoi(const char *str);
 
 /* commands */
 void    swap(t_list **_head);
-void    push(t_list **head_dst, t_list **head_src);
-void    rotate(t_list **head);
-void    reverse_rotate(t_list **head);
+void    swap_shell(t_list **stack_a, t_list **stack_b);
 
-/* оболочки для команд */
+void    push(t_list **head_dst, t_list **head_src);
+void    push_shell(t_list **stack_a, t_list **stack_b, int flag);
+
+void    rotate(t_list **head);
+void    rotate_shell(t_list **stack_a, t_list **stack_b);
+
+void    reverse_rotate(t_list **head);
+void    reverse_rotate_shell(t_list **stack_a, t_list **stack_b);
 
 /* algorythm prerequisites */
 int     find_min(t_list **head);
