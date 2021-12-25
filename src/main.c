@@ -27,11 +27,12 @@ int main(int ac, char **av)
         check_args(ac, av);
         fill_list(&head_a, ac, av);
          if (list_is_sorted(head_a, head_b))
-               {
-                   if (ac <= 6)
-                       sort_small_list(&head_a, &head_b);
-                   else
-                       sort_middle_list(&head_a, &head_b);
+         {
+            if (ac <= 6)
+                sort_small_list(&head_a, &head_b);
+            else
+                sort_middle_list(&head_a, &head_b);
+         }
     }
     free_list(&head_a);
     return (0);
