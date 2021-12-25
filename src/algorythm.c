@@ -1,22 +1,5 @@
 #include "push_swap.h"
 
-void sort_three_elems(t_list **head)
-{
-    if ((*head)->data > (*head)->next->data) 
-    {
-        swap_shell(head, NULL);
-    }
-    if ((*head)->next->data > (*head)->next->next->data)
-    {
-        reverse_rotate(head);
-        swap_shell(head, NULL);
-    }
-    if ((*head)->data > (*head)->next->data) 
-    {
-        swap_shell(head, NULL);
-    }
-}
-
 int check_group(t_list *head, int step)
 {
 	while (head)
@@ -26,24 +9,6 @@ int check_group(t_list *head, int step)
 		head = head->next;
 	}
 	return (0);
-}
-
-int find_max(t_list *head)
-{
-	int 	max_val;
-	t_list	*found;
-
-	max_val = INT_MIN;
-	while (head != NULL)
-	{
-		if (head->data >= max_val)
-		{
-			max_val = head->data;
-			found = head;
-		}
-		head = head->next;
-	}
-	return (found->i);
 }
 
 /* Функция для оптимизации алгоритма.
@@ -96,7 +61,8 @@ void get_sorted_list(t_list **stack_a, t_list **stack_b)
 			{
 				// if ((*stack_b)->i == max_index - 1) 
 				// {	
-				// 	push(stack_a, stack_b);
+				// 	dprintf(2, "blyat\n");
+				// 	push_shell(stack_a, stack_b, 'a');
 				// 	count++;
 				// }
 				rotate_shell(NULL, stack_b);
@@ -105,13 +71,13 @@ void get_sorted_list(t_list **stack_a, t_list **stack_b)
 			{
 				if ((*stack_b)->i == max_index - 1)
 				{
-					push_shell(stack_a, stack_b, 0);
+					push_shell(stack_a, stack_b, 'a');
 					count++;
 				}
 				reverse_rotate_shell(NULL, stack_b);
 			}
 		}
-		push_shell(stack_a, stack_b, 0);
+		push_shell(stack_a, stack_b, 'a');
 		if (count)
 		{
 			if (*stack_b && (*stack_b)->next &&
@@ -121,66 +87,115 @@ void get_sorted_list(t_list **stack_a, t_list **stack_b)
 			}
 			else
 				swap_shell(stack_a, NULL);
-			// printf("stack a\n");
-			// print_list(*stack_a);
-			// printf("stack b\n");
-			// print_list(*stack_b);
 		}
 	}
 }
 
-/* Перекинуть по группам элементы из стека А в В, пока в А не останется трех элементов */
-void push_indexed_elems(t_list **head, int step)
+static int count_step(t_list *stack)
 {
-    t_list  *stack_b;
-    t_list  *stack_a;
-    int     i;
-	int		max;
+    int     step;
+    int     group_count;
+    int     num_count;
 
-    stack_a = *head;
-    stack_b = NULL;
-    i = 0;
-	max = find_max(*head);
+    num_count = count_nodes(stack);
+    step = 0;
+    /* max rmd = 2 */
+    if (num_count <= 50)
+    {
+        group_count = 3;
+    }
+    /* max rmd = 4 */
+    else if (num_count > 50 && num_count <= 100)
+    {
+        group_count = 5;
+    }
+	else
+	{
+		group_count = 12;
+	}
+	step = num_count / group_count;
+    return (step);
+}
+
+// int locate_group(t_list *stack, int min, int max)
+// {
+// 	int		medium;
+// 	int		before_med;
+// 	int		after_med;
+// 	int		i;
+
+// 	i = 0;
+// 	before_med = 0;
+// 	after_med = 0;
+// 	medium = count_nodes(stack) / 2;
+// 	while (stack)
+// 	{
+// 		if (stack->i >= min && stack->i < max)
+// 		{
+// 			if (i < medium)
+// 				before_med++;
+// 			else
+// 				after_med++;
+// 		}
+// 		stack = stack->next;
+// 		i++;
+// 	}
+// 	if (before_med > after_med)
+// 		return (0);
+// 	return (1);
+// }
+
+/* Перекинуть по группам элементы из стека А в В, пока в А не останется трех элементов */
+void sort_middle_list(t_list **head_a, t_list **head_b)
+{
+    t_list  *stack_a;
+    t_list  *stack_b;
+	int		step;
+	int		max;
+	int 	const_step;
+
+    stack_a = *head_a;
+    stack_b = *head_b;
+	max = find_max(stack_a);
+	const_step = count_step(stack_a);
+	step = const_step;
     while (count_nodes(stack_a) > 3)
     {
+		// int way = 0;
+		// way = locate_group(stack_a, step-const_step, step);
+		// dprintf(2, "step is: %d | way is %s\n", step, way ? "DOWN" : "UP");
+		// print_list(stack_a, stack_b);
+		// dprintf(2, "current step is: %d\n", step);
         while (count_nodes(stack_a) > 3 && check_group(stack_a, step) == 1)
         {
-            // printf("count is %d\n", count_nodes(stack_a));
-        	// printf("i is [%d]\n", i);
-            // printf("step is [%d]\n", step);
-			// printf("current num is [%d:%d]\n", stack_a->data, stack_a->i);
             if (stack_a->i < step && stack_a->i < (max - 2))
             {
-				// push(&stack_b, &stack_a);
-                push_shell(&stack_b, &stack_a, 1);
+                push_shell(&stack_a, &stack_b, 'b');
             }
             else
             {
-                rotate_shell(&stack_a, NULL);
+				// if (locate_group(stack_a, step - const_step, step))
+				// if (way)
+					// reverse_rotate_shell(&stack_a, NULL);
+				// else
+					rotate_shell(&stack_a, NULL);
             }
         }
-        i += step;
-        step += step;
+        step += const_step;
+		// print_list(stack_a, stack_b);
     }
-    sort_three_elems(&stack_a);
-	// if list is sorted, exit
-	// else ...
-	//  ------
-	//  ------
-    // printf("------ pre-sorted ------\n");
-	// printf("stack a : \n");
-	// print_list(stack_a);
-	// printf("stack b : \n");
-    // print_list(stack_b);
-	// printf("\n");
+    sort_three(&stack_a);
 	get_sorted_list(&stack_a, &stack_b);
-    printf("------ sorted ------\n");
-	printf("stack a : \n");
-    print_list(stack_a);
-	printf("stack b : \nis empty\n");
-    print_list(stack_b);
-    // //  ------
+	*head_a = stack_a;
+	*head_b = stack_b;
+	// if (list_is_sorted(stack_a, stack_b))
+	// {
+	// 	dprintf(2, "IT'S FUCKING SORTED\n");
+	// }
+	// else
+	// {
+	// 	dprintf(2, "IT'S NOT SORTED, U SHOUD KILL URSELF!111!\n");
+	// }
 	// print_list(stack_a);
-    // printf("------\n");
-    // print_list(stack_b);
+	// printf("\n");
 }

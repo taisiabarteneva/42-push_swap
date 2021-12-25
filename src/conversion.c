@@ -42,9 +42,9 @@ int	ft_atoi(const char *str)
 	while (*str >= '0' && *str <= '9')
 	{
 		val = val * 10 + *str - '0';
-		if (val > 2147483648 && sign == -1)
+		if (val >= INT_MAX && sign == -1)
 			fatal_error(DEFAULT_ERR);
-		else if (val > 2147483648)
+		else if (val >= INT_MAX)
 			fatal_error(DEFAULT_ERR);
 		str++;
 	}
