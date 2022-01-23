@@ -2,25 +2,32 @@ NAME = push_swap
 
 DIR_SRC = src
 DIR_OBJ = obj
-# SOURCES =	main.c			list_functions.c		standard_functions.c\
-# 			commands.c		algorythm.c				prerequisites.c\
-# 			sort_small_list.c
+SRC =			commands1.c			commands2.c		commands3.c\
+				index_elems.c		main.c			list_functions.c\
+				merge_sort_extra.c	parse.c			sort_big_extra.c\
+				sort_big_utils.c	sort_big.c		sort_middle.c\
+				sort_small.c 		conversion.c	algorythm_extra.c\
+				presort_middle.c	sort_middle_extra.c\
 
-SRC = $(wildcard $(DIR_SRC)/*.c)
-OBJ = $(patsubst $(DIR_SRC)/%.c,$(DIR_OBJ)/%.o,$(SRC))
+SRC := $(SRC:%.c=$(DIR_SRC)/%.c)
+OBJ = $(SRC:$(DIR_SRC)/%.c=$(DIR_OBJ)/%.o)
 INCLUDES	=	push_swap.h
+
+COLOR = \033[48;5;57m
+NO_COLOR =	\033[0m 
 
 FLAGS = -Wall -Wextra -Werror
 
 all : $(NAME)
 
-$(NAME) : $(OBJ) 
+$(NAME) : $(OBJ)
 	@gcc $(OBJ) -o $(NAME)
-	@echo You compiled the mandatory part of project.
+	@echo "$(COLOR)You compiled the mandatory part of project.$(NO_COLOR)"
 
 $(DIR_OBJ)/%.o : $(DIR_SRC)/%.c $(INCLUDES)
 	@mkdir -p $(DIR_OBJ)
-	gcc $(FLAGS) -I . -c $< -o $@
+	@gcc $(FLAGS) -I . -c $< -o $@
+	@echo "[$<] ---> [$@]"
 
 clean :
 	@rm -rf $(DIR_OBJ)

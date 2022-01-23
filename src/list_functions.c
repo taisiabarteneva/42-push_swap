@@ -1,86 +1,91 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   list_functions.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: wurrigon <wurrigon@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/30 04:45:41 by wurrigon          #+#    #+#             */
+/*   Updated: 2021/12/31 05:54:40 by wurrigon         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
-void fill_list(t_list **head, int ac, char **av)
+void	fill_list(t_list **head, int ac, char **av)
 {
-    int     val;
-    int     i;
+	int	val;
+	int	i;
 
-    *head = (t_list *)malloc(sizeof(t_list));
-    if (!head)
-        fatal_error(MEM_ERR);
-    val = ft_atoi(av[FIRST_ELEM]);
-    (*head)->data = val;
-    (*head)->i = 0;
-    (*head)->next = NULL;
-    i = LIST_START;
-    while (i < ac)
-    {
-        val = ft_atoi(av[i]);
-        list_add_back(*head, val);
-        i++;
-    }
-    check_duplicate_values(*head); 
-    index_elems(head);
+	i = 1;
+	while (i < ac)
+	{
+		val = ft_atoi(av[i]);
+		list_add_back(head, val);
+		i++;
+	}
+	check_duplicate_values(*head);
+	index_elems(head);
 }
 
-void list_add_back(t_list *head, int data)
+void	list_add_front(t_list **head, int data)
 {
-    t_list  *current;
+	t_list	*tmp;
 
-    current = head;
-    while (current->next != NULL)
-        current = current->next;
-    current->next = (t_list *)malloc(sizeof(t_list));
-    if (current->next == NULL)
-        fatal_error(MEM_ERR);
-    current->next->data = data;
-    current->next->i = 0;
-    current->next->next = NULL;
+	tmp = (t_list *)malloc(sizeof(t_list));
+	if (!tmp)
+		fatal_error(MEM_ERR);
+	tmp->data = data;
+	tmp->i = 0;
+	tmp->i_tmp = 0;
+	tmp->next = *head;
+	*head = tmp;
 }
 
-int count_nodes(t_list *head)
+void	list_add_back(t_list **head, int data)
 {
-    int     count;
+	t_list	*tmp;
+	t_list	*current;
 
-    count = 0;
-    while (head)
-    {
-        count++;
-        head = head->next;
-    }
-    return (count);
+	tmp = (t_list *)malloc(sizeof(t_list));
+	if (!tmp)
+		fatal_error(MEM_ERR);
+	if (!(*head))
+		*head = tmp;
+	else
+	{
+		current = *head;
+		while (current->next != NULL)
+			current = current->next;
+		current->next = tmp;
+	}
+	tmp->data = data;
+	tmp->i = 0;
+	tmp->i_tmp = 0;
+	tmp->next = NULL;
 }
 
-void free_list(t_list **head)
+int	count_nodes(t_list *head)
 {
-    t_list *tmp;
+	int	count;
 
-    while (*head)
-    {
-        tmp = *head;
-        *head = (*head)->next;
-        free(tmp);
-    }
+	count = 0;
+	while (head)
+	{
+		count++;
+		head = head->next;
+	}
+	return (count);
 }
 
-// Iterate over a List
-void print_list(t_list *a, t_list *b)
+void	free_list(t_list **head)
 {
-    for (; a || b ; )
-    {
-        if (a)
-            dprintf(2, "%d:%d", a->data, a->i);
-        else
-            dprintf(2, "-");
-        dprintf(2, "      ");
-        if (b)
-            dprintf(2, "%d:%d\n", b->data, b->i);
-        else
-            dprintf(2, "-\n");
-        if (a)
-            a = a->next;
-        if (b)
-            b = b->next;
-        
-    }
+	t_list	*tmp;
+
+	while (*head)
+	{
+		tmp = *head;
+		*head = (*head)->next;
+		free(tmp);
+	}
 }
