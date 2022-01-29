@@ -7,6 +7,3 @@ For a list which consists of more than 100 elements I implemented a merge sort a
 
 Built : 
 $> make
-
-Usage :
-$> ./push_swap <list of integers>
