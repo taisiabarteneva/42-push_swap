@@ -24,3 +24,6 @@ $> ./push_swap int1 int2 int3 ... int4
  - Small list - 12 commands
  - Middle list (100 elems) - 540 commands 
  - Big list (500 elems) - 5450 commands
+ 
+ 
+![Изображение из iOS](https://user-images.githubusercontent.com/95509213/153432100-dd8045f3-5dd3-43c3-b752-0c753b9a9656.jpg)
