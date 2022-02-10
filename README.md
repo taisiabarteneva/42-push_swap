@@ -17,7 +17,7 @@ $> make
 
 ## How to launch
 ```
-$> ./push_swap int1 int2 int3 ... int4
+$> ./push_swap int1 int2 int3 ... intn
 ```
 
 ### Efficiency
