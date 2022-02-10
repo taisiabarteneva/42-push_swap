@@ -1,6 +1,6 @@
 # push_swap
 
-#### 42school project. 
+#### 42school project
 The goal of a project is to implement a sorting algorythm on two stacks.
 According to the rules, only four commands can be used: swap, push, rotate and reverse. 
 
